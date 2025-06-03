@@ -20,13 +20,21 @@ namespace MallSpace_Plugins
 
                 try
                 {
-                    string mallName="", floorNumber;
+                    string mallName = "", floorNumber="";
+                    if(floor.Attributes.Contains("giulia_mall"))
+                    {
+                        EntityReference mallRef = floor.GetAttributeValue<EntityReference>("giulia_mall");
+                        Entity mall = service.Retrieve("giulia_malls", mallRef.Id, new ColumnSet("giulia_name"));
+                        mallName = mall.GetAttributeValue<string>("giulia_name");
+                    }
+                    else
+                        throw new InvalidPluginExecutionException("Select a mall record!");
+                    
+                    if (floor.Attributes.Contains("giulia_floornumber"))
+                        floorNumber = floor.GetAttributeValue<int>("giulia_floornumber").ToString();
+                    else
+                        throw new InvalidPluginExecutionException("Insert the floor number!");
 
-                    EntityReference mallRef = floor.GetAttributeValue<EntityReference>("giulia_mall");
-                    Entity mall = service.Retrieve("giulia_malls", mallRef.Id, new ColumnSet("giulia_name"));
-                    mallName = mall.GetAttributeValue<string>("giulia_name");
-
-                    floorNumber = floor.GetAttributeValue<int>("giulia_floornumber").ToString();
                     floor["giulia_name"] = $"{mallName} Floor{floorNumber}";
                 }
                 catch (Exception ex)
