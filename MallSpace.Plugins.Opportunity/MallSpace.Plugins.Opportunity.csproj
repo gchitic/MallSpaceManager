@@ -97,7 +97,9 @@
   <ItemGroup>
     <Compile Include="Business Logic\Opportunity_RentCostCaluclator.cs" />
     <Compile Include="Handlers\Opportunity_CreateHandler.cs" />
+    <Compile Include="Handlers\ReadOnlyFieldsHandler.cs" />
     <Compile Include="Plugins\OpportunityCreatePlugin.cs" />
+    <Compile Include="Plugins\ReadOnlyFieldsPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
