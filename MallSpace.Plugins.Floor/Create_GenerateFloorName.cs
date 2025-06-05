@@ -2,7 +2,7 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 
-namespace MallSpace_Plugins.Floor
+namespace MallSpace.Plugins.Floor
 {
     public class Create_GenerateFloorName : IPlugin
     {
