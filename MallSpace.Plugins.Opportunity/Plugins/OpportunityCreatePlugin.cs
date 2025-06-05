@@ -22,20 +22,8 @@ namespace MallSpace.Plugins.Opportunity.Plugins
             {
                 Entity opportunity = (Entity)context.InputParameters["Target"];
 
-                try
-                {
-                    var handler = new Opportunity_CreateHandler();
-                    handler.Handle(opportunity);
-
-                }
-                catch (InvalidPluginExecutionException ex)
-                {
-                    throw new InvalidPluginExecutionException("Error in Opportunity Create Plugin: " + ex.Message, ex);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message, ex);
-                }
+                var handler = new Opportunity_CreateHandler();
+                handler.Handle(opportunity);
 
             }
         }

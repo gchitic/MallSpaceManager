@@ -18,15 +18,10 @@ namespace MallSpace.Plugins.Floor
             {
                 Entity floor = (Entity)context.InputParameters["Target"];
 
-                try
-                {
-                    var generator = new FloorNameGenerator(context, service);
-                    generator.Generate(floor);
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidPluginExecutionException("Error in Generate Floor Name plugin: " + ex.Message, ex);
-                }
+                var generator = new FloorNameGenerator(context, service);
+                generator.Generate(floor);
+
+                
             }
 
         }

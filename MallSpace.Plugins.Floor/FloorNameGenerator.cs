@@ -21,12 +21,19 @@ namespace MallSpace.Plugins.Floor
 
         public void Generate(Entity floor)
         {
-            var preImage = context.PreEntityImages.Contains("PreImage") ? context.PreEntityImages["PreImage"] : null;
-            EntityReference mallRef = getMallReference(floor, preImage);
+            try
+            {
+                var preImage = context.PreEntityImages.Contains("PreImage") ? context.PreEntityImages["PreImage"] : null;
+                EntityReference mallRef = getMallReference(floor, preImage);
 
-            string mallName = getMallName(mallRef);
-            int floorNumber = getFloorNumber(floor, preImage);
-            floor["giulia_name"] = $"{mallName} Floor{floorNumber}";
+                string mallName = getMallName(mallRef);
+                int floorNumber = getFloorNumber(floor, preImage);
+                floor["giulia_name"] = $"{mallName} Floor{floorNumber}";
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidPluginExecutionException("Error: " + ex.Message, ex);
+            }
         }
 
         private EntityReference getMallReference(Entity floor, Entity preImage)

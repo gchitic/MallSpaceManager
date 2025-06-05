@@ -19,14 +19,22 @@ namespace MallSpace.Plugins.Opportunity.Handlers
 
         public void Handle(Entity opportunity)
         {
-            var pricePerM2 = opportunity.GetAttributeValue<decimal>("giulia_priceperm2");
-            var offeredSpace = opportunity.GetAttributeValue<decimal>("giulia_offeredspace");
-
-            var rentCost = calculator.Calculator(pricePerM2, offeredSpace);
-            if(rentCost != null)
+            try
             {
-                opportunity["giulia_rentcost"] = rentCost;
+                var pricePerM2 = opportunity.GetAttributeValue<decimal>("giulia_priceperm2");
+                var offeredSpace = opportunity.GetAttributeValue<decimal>("giulia_offeredspace");
+
+                var rentCost = calculator.Calculator(pricePerM2, offeredSpace);
+                if (rentCost != null)
+                {
+                    opportunity["giulia_rentcost"] = rentCost;
+                }
             }
+            catch (InvalidPluginExecutionException ex)
+            {
+                throw new InvalidPluginExecutionException("Error: " + ex.Message, ex);
+            }
+            
 
         }
     }
