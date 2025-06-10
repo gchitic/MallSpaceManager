@@ -1,14 +1,10 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MallSpace_Plugins.Floor
+namespace MallSpace_Plugins.Floor.Business_Logic
 {
-    public class FloorNameGenerator
+    internal class FloorNameGenerator
     {
         private readonly IPluginExecutionContext context;
         private readonly IOrganizationService service;
@@ -21,19 +17,26 @@ namespace MallSpace_Plugins.Floor
 
         public void Generate(Entity floor)
         {
-            var preImage = context.PreEntityImages.Contains("PreImage") ? context.PreEntityImages["PreImage"] : null;
-            EntityReference mallRef = getMallReference(floor, preImage);
+            try
+            {
+                var preImage = context.PreEntityImages.Contains("PreImage") ? context.PreEntityImages["PreImage"] : null;
+                EntityReference mallRef = getMallReference(floor, preImage);
 
-            string mallName = getMallName(mallRef);
-            int floorNumber = getFloorNumber(floor, preImage);
-            floor["giulia_name"] = $"{mallName} Floor{floorNumber}";
+                string mallName = getMallName(mallRef);
+                int floorNumber = getFloorNumber(floor, preImage);
+                floor["giulia_name"] = $"{mallName} Floor{floorNumber}";
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidPluginExecutionException("Error: " + ex.Message, ex);
+            }
         }
 
         private EntityReference getMallReference(Entity floor, Entity preImage)
         {
             if (floor.Attributes.Contains("giulia_mall"))
                 return floor.GetAttributeValue<EntityReference>("giulia_mall");
-            if(preImage != null && preImage.Contains("giulia_mall"))
+            if (preImage != null && preImage.Contains("giulia_mall"))
                 return preImage.GetAttributeValue<EntityReference>("giulia_mall");
 
             throw new InvalidPluginExecutionException("Select a mall record!");
@@ -44,10 +47,10 @@ namespace MallSpace_Plugins.Floor
             Entity mall = service.Retrieve("giulia_malls", mallRef.Id, new ColumnSet("giulia_name"));
             return mall.GetAttributeValue<string>("giulia_name");
         }
-        
+
         private int getFloorNumber(Entity floor, Entity preImage)
         {
-            if(floor.Attributes.Contains("giulia_floornumber"))
+            if (floor.Attributes.Contains("giulia_floornumber"))
                 return floor.GetAttributeValue<int>("giulia_floornumber");
             if (preImage != null && preImage.Contains("giulia_floornumber"))
                 return preImage.GetAttributeValue<int>("giulia_floornumber");

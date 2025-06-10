@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MallSpace_Plugins.Opportunity.Handlers;
 using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
+using System;
 
-namespace MallSpace_Plugins.Floor
+namespace MallSpace_Plugins.Opportunity.Plugins
 {
-    public class Create_GenerateFloorName : IPlugin
+    public class ReadOnlyFieldsPlugin : IPlugin
     {
         public void Execute(IServiceProvider serviceProvider)
         {
@@ -16,19 +16,22 @@ namespace MallSpace_Plugins.Floor
 
             if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity)
             {
-                Entity floor = (Entity)context.InputParameters["Target"];
+                Entity opportunity = (Entity)context.InputParameters["Target"];
 
                 try
                 {
-                    var generator = new FloorNameGenerator(context, service);
-                    generator.Generate(floor);
+                    if(context.MessageName == "Create" || context.MessageName == "Update")
+                    {
+                        var handler = new ReadOnlyFieldsHandler();
+                        handler.protectReadOnlyFields(context, opportunity);
+                    }            
                 }
-                catch (Exception ex)
+                catch (InvalidPluginExecutionException ex)
                 {
-                    throw new InvalidPluginExecutionException("Error in Generate Floor Name plugin: " + ex.Message, ex);
+                    throw new InvalidPluginExecutionException("Error in OpportunityCreatePlugin: " + ex.Message, ex);
                 }
-            }
 
+            }
         }
     }
 }
