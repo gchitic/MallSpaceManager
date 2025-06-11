@@ -98,9 +98,11 @@
     <Compile Include="Floor\Business Logic\FloorNameGenerator.cs" />
     <Compile Include="Floor\Plugins\FloorCreatePlugin.cs" />
     <Compile Include="Opportunity\Business Logic\OpportunityRentCostCalculator.cs" />
+    <Compile Include="Opportunity\Handlers\BPF\StageChangeHandler.cs" />
     <Compile Include="Opportunity\Handlers\OpportunityCreateHandler.cs" />
     <Compile Include="Opportunity\Handlers\OpportunityUpdateHandler.cs" />
     <Compile Include="Opportunity\Handlers\ReadOnlyFieldsHandler.cs" />
+    <Compile Include="Opportunity\Plugins\BPF\OpportunityBpfStageChangePlugin.cs" />
     <Compile Include="Opportunity\Plugins\OpportunityCreatePlugin.cs" />
     <Compile Include="Opportunity\Plugins\ReadOnlyFieldsPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

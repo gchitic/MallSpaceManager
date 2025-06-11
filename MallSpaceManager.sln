@@ -5,10 +5,6 @@ VisualStudioVersion = 17.14.36109.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MallSpace_Plugins", "MallSpace_Plugins\MallSpace_Plugins.csproj", "{5DA80C8D-1003-425E-9C7B-F96706D2B4CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MallSpace.Plugins.Floor", "MallSpace.Plugins.Floor\MallSpace.Plugins.Floor.csproj", "{428A97C3-0981-4A9E-AAE5-30FDE356198E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MallSpace.Plugins.Opportunity", "MallSpace.Plugins.Opportunity\MallSpace.Plugins.Opportunity.csproj", "{73042CBF-9FEE-4AE7-9A9A-828CF8B50749}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,14 +15,6 @@ Global
 		{5DA80C8D-1003-425E-9C7B-F96706D2B4CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DA80C8D-1003-425E-9C7B-F96706D2B4CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DA80C8D-1003-425E-9C7B-F96706D2B4CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{428A97C3-0981-4A9E-AAE5-30FDE356198E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{428A97C3-0981-4A9E-AAE5-30FDE356198E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{428A97C3-0981-4A9E-AAE5-30FDE356198E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{428A97C3-0981-4A9E-AAE5-30FDE356198E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73042CBF-9FEE-4AE7-9A9A-828CF8B50749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73042CBF-9FEE-4AE7-9A9A-828CF8B50749}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73042CBF-9FEE-4AE7-9A9A-828CF8B50749}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73042CBF-9FEE-4AE7-9A9A-828CF8B50749}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

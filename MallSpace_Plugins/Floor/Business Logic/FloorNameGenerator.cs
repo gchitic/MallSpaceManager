@@ -25,6 +25,7 @@ namespace MallSpace_Plugins.Floor.Business_Logic
                 string mallName = getMallName(mallRef);
                 int floorNumber = getFloorNumber(floor, preImage);
                 floor["giulia_name"] = $"{mallName} Floor{floorNumber}";
+                floor["giulia_occupiedspace"] = new decimal(0.0);
             }
             catch (Exception ex)
             {
