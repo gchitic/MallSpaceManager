@@ -105,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Floor\Business Logic\FloorNameGenerator.cs" />
+    <Compile Include="Floor\Handlers\FloorCreateHandler.cs" />
     <Compile Include="Floor\Plugins\FloorCreatePlugin.cs" />
     <Compile Include="Opportunity\Business Logic\ApprovalService.cs" />
     <Compile Include="Opportunity\Business Logic\OpportunityRentCostCalculator.cs" />
@@ -124,8 +125,6 @@
     <None Include="key.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Floor\Handlers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

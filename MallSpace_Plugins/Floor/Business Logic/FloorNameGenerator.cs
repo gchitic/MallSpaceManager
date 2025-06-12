@@ -4,34 +4,26 @@ using System;
 
 namespace MallSpace_Plugins.Floor.Business_Logic
 {
-    internal class FloorNameGenerator
+    public class FloorNameGenerator
     {
         private readonly IPluginExecutionContext context;
         private readonly IOrganizationService service;
 
-        public FloorNameGenerator(IPluginExecutionContext context, IOrganizationService service)
+        public FloorNameGenerator(IOrganizationService service)
         {
-            this.context = context;
             this.service = service;
         }
 
-        public void Generate(Entity floor)
+        public string generateFloorName(Entity floor, Entity preimage)
         {
-            try
-            {
-                var preImage = context.PreEntityImages.Contains("PreImage") ? context.PreEntityImages["PreImage"] : null;
-                EntityReference mallRef = getMallReference(floor, preImage);
+            var mallRef = getMallReference(floor, preimage);
+            var mallName = getMallName(mallRef);
+            var floorNumber = getFloorNumber(floor, preimage);
 
-                string mallName = getMallName(mallRef);
-                int floorNumber = getFloorNumber(floor, preImage);
-                floor["giulia_name"] = $"{mallName} Floor{floorNumber}";
-                floor["giulia_occupiedspace"] = new decimal(0.0);
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidPluginExecutionException("Error: " + ex.Message, ex);
-            }
+            return $"{mallName} Floor{floorNumber}";
         }
+
+        public decimal initializeOccupiedSpace() => 0.0m; 
 
         private EntityReference getMallReference(Entity floor, Entity preImage)
         {
