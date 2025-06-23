@@ -16,8 +16,6 @@ namespace MallSpace_Plugins.Floor.Handlers
         {
             string name = floorNameGenerator.generateFloorName(floor, preimage);
             floor["giulia_name"] = name;
-
-            floor["giulia_occupiedspace"] = floorNameGenerator.initializeOccupiedSpace();
         }
     }
 }

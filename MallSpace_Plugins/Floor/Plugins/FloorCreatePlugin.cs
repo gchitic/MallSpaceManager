@@ -27,14 +27,17 @@ namespace MallSpace_Plugins.Floor.Plugins
                 {
                     var handler = new FloorCreateHandler(service);
                     handler.Handle(floor, preImage, floorNameGenerator);
+                    if(context.MessageName == "Create")
+                    {
+                        floor["giulia_occupiedspace"] = floorNameGenerator.initializeOccupiedSpace();
+                    }
+                    
                 } 
                 catch(InvalidPluginExecutionException ex)
                 {
                     throw new InvalidPluginExecutionException("Error in FloorCreatePlugin: " + ex.Message);
                 }
-                
             }
-
         }
     }
 }

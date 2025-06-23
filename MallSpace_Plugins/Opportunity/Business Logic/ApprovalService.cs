@@ -13,7 +13,6 @@ namespace MallSpace_Plugins.Opportunity.Business_Logic
         {
             this.service = service;
         }
-
         public List<string> getApprovalTeams()
         {
             var approvalTeams = new List<string>();
@@ -45,7 +44,7 @@ namespace MallSpace_Plugins.Opportunity.Business_Logic
             }
         }
 
-        public void markOpportunityAsApproved(Guid opportunityGuid)
+        public void markApprovalSubmitedAsYes(Guid opportunityGuid)
         {
             Entity opportunity = new Entity("giulia_opportunity", opportunityGuid);
             opportunity["giulia_approvalsubmited"] = true;

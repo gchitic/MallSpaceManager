@@ -104,17 +104,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contract\Handlers\ContractCreateUpdateHandler.cs" />
+    <Compile Include="Contract\Plugins\ContractCreatePlugin.cs" />
     <Compile Include="Floor\Business Logic\FloorNameGenerator.cs" />
+    <Compile Include="Floor\Business Logic\OccupiedSpaceCalculator.cs" />
     <Compile Include="Floor\Handlers\FloorCreateHandler.cs" />
     <Compile Include="Floor\Plugins\FloorCreatePlugin.cs" />
     <Compile Include="Opportunity\Business Logic\ApprovalService.cs" />
+    <Compile Include="Opportunity\Business Logic\OpportunityDefaultValues.cs" />
     <Compile Include="Opportunity\Business Logic\OpportunityRentCostCalculator.cs" />
     <Compile Include="Opportunity\Handlers\BPF\StageChangeHandler.cs" />
+    <Compile Include="Opportunity\Handlers\Commands\ApproveHandler.cs" />
     <Compile Include="Opportunity\Handlers\Commands\SubmitForApprovalHandler.cs" />
     <Compile Include="Opportunity\Handlers\OpportunityCreateHandler.cs" />
     <Compile Include="Opportunity\Handlers\OpportunityUpdateHandler.cs" />
     <Compile Include="Opportunity\Handlers\ReadOnlyFieldsHandler.cs" />
     <Compile Include="Opportunity\Plugins\BPF\OpportunityBpfStageChangePlugin.cs" />
+    <Compile Include="Opportunity\Plugins\Commands\ApproveActionPlugin.cs" />
     <Compile Include="Opportunity\Plugins\Commands\SubmitForApprovalActionPlugin.cs" />
     <Compile Include="Opportunity\Plugins\OpportunityCreatePlugin.cs" />
     <Compile Include="Opportunity\Plugins\ReadOnlyFieldsPlugin.cs" />

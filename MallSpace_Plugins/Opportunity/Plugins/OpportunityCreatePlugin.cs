@@ -21,13 +21,14 @@ namespace MallSpace_Plugins.Opportunity.Plugins
 
                 //Dependencies
                 var calculator = new OpportunityRentCostCalculator();
+                var defaultValues = new OpportunityDefaultValues();
 
                 try
                 {
                     if(context.MessageName == "Create")
                     {
-                        var handler = new OpportunityCreateHandler();
-                        handler.Handle(opportunity, calculator);
+                        var handler = new OpportunityCreateHandler(calculator, defaultValues);
+                        handler.Handle(opportunity);
                     }
                     if(context.MessageName == "Update")
                     {

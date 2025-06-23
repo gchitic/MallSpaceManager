@@ -20,7 +20,7 @@ namespace MallSpace_Plugins.Opportunity.Handlers.Commands
             }
 
             approvalService.createApprovalRecords(opportunityGuid, approvalTeams);
-            approvalService.markOpportunityAsApproved(opportunityGuid);
+            approvalService.markApprovalSubmitedAsYes(opportunityGuid);
         }
     }
 }

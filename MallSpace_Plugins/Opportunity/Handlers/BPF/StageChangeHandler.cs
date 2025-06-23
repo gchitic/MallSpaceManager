@@ -12,6 +12,14 @@ namespace MallSpace_Plugins.Opportunity.Handlers.BPF
     {
         public void Handle(IOrganizationService service, Entity opportunityBPF)
         {
+            // If activestageid is missing, it might be because the BPF is finished
+            var stageRef = opportunityBPF.GetAttributeValue<EntityReference>("activestageid");
+            if (stageRef == null)
+            {
+                // Optionally: You can skip logic or handle this final state separately
+                return; // Do nothing when BPF is completed
+            }
+
             // Get stage ID and resolve name
             var stageId = opportunityBPF.GetAttributeValue<EntityReference>("activestageid")?.Id ?? Guid.Empty;
             if (stageId == Guid.Empty)
@@ -39,7 +47,10 @@ namespace MallSpace_Plugins.Opportunity.Handlers.BPF
             else if (stageName == "Offer")
                 updateOpportunityStatusReason(service, opportunityRef.Id, new OptionSetValue(343530002));
             else if (stageName == "Contract")
+            {
                 updateOpportunityStatusReason(service, opportunityRef.Id, new OptionSetValue(343530003));
+            }
+                
         }
 
         public string getStageName(IOrganizationService service, Guid stageId)
