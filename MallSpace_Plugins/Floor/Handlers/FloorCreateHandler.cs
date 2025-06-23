@@ -9,7 +9,6 @@ namespace MallSpace_Plugins.Floor.Handlers
     public class FloorCreateHandler
     {
         private readonly IOrganizationService service;
-        //private readonly FloorNameGenerator floorNameGenerator;
         private readonly FloorNameGenerate floorNameGenerate;
         private readonly FloorValidator floorValidator;
         private readonly OccupiedSpaceCalculator occupiedSpaceCalculator;
@@ -40,7 +39,7 @@ namespace MallSpace_Plugins.Floor.Handlers
 
         public string generateAndValidateFloorName(Entity floor, Entity preImage)
         {
-            //get all field values
+            //get all fields values
             var mallRef = floorDataService.getMallReference(floor, preImage);
             var mallName = floorDataService.getMallName(mallRef);
             var mallMaxFloors = floorDataService.getMallFloors(mallRef);

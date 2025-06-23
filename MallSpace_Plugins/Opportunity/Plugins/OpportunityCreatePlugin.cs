@@ -22,12 +22,13 @@ namespace MallSpace_Plugins.Opportunity.Plugins
                 //Dependencies
                 var calculator = new OpportunityRentCostCalculator();
                 var defaultValues = new OpportunityDefaultValues();
+                var readOnlyFieldRules = new ReadOnlyFieldRules();
 
                 try
                 {
                     if(context.MessageName == "Create")
                     {
-                        var handler = new OpportunityCreateHandler(calculator, defaultValues);
+                        var handler = new OpportunityCreateHandler(calculator, defaultValues, readOnlyFieldRules, context);
                         handler.Handle(opportunity);
                     }
                     if(context.MessageName == "Update")
@@ -35,7 +36,7 @@ namespace MallSpace_Plugins.Opportunity.Plugins
                         var preImage = context.PreEntityImages.Contains("PreImage") ?
                             context.PreEntityImages["PreImage"] : null;
 
-                        var updateHandler = new OpportunityUpdateHandler();
+                        var updateHandler = new OpportunityUpdateHandler(calculator, readOnlyFieldRules, context);
                         updateHandler.Handle(opportunity, preImage, calculator);
                     }
 
