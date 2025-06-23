@@ -14,5 +14,7 @@ namespace MallSpace_Plugins.Floor.Business_Logic
         {
             return occupiedSpace + offeredSpace;
         }
+
+        public decimal InitializeOccupiedSpace() => 0.0m;
     }
 }

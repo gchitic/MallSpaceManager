@@ -10,7 +10,7 @@ namespace MallSpace_Plugins.Floor.Business_Logic
 {
     public class FloorNameGenerator
     {
-        private readonly IPluginExecutionContext context;
+        /*private readonly IPluginExecutionContext context;
         private readonly IOrganizationService service;
 
         public FloorNameGenerator(IOrganizationService service)
@@ -25,10 +25,10 @@ namespace MallSpace_Plugins.Floor.Business_Logic
             int mallFloor = getMallFloors(mallRef);
 
             List<int> allMallFloors = new List<int>();
-            allMallFloors = getAllFloorsRelatedToMall(service, mallRef.Id);
+            allMallFloors = getAllFloorsRelatedToMall(service, mallRef.Id, floor.Id);
 
             bool ifFloorNumberValid = isFloorNumberValid(floor, preimage, mallFloor);
-            bool ifMallNumberUnique = isMallNumberUnique(floor, preimage, allMallFloors);
+            bool ifMallNumberUnique = isFloorNumberUnique(floor, preimage, allMallFloors);
             if (ifFloorNumberValid && ifMallNumberUnique)
             {       
                 var floorNumber = getFloorNumber(floor, preimage);
@@ -40,62 +40,66 @@ namespace MallSpace_Plugins.Floor.Business_Logic
 
         public decimal initializeOccupiedSpace() => 0.0m; 
 
-        private EntityReference getMallReference(Entity floor, Entity preImage)
-        {
-            if (floor.Attributes.Contains("giulia_mall"))
-                return floor.GetAttributeValue<EntityReference>("giulia_mall");
-            if (preImage != null && preImage.Contains("giulia_mall"))
-                return preImage.GetAttributeValue<EntityReference>("giulia_mall");
+        //private EntityReference getMallReference(Entity floor, Entity preImage)
+        //{
+        //    if (floor.Attributes.Contains("giulia_mall"))
+        //        return floor.GetAttributeValue<EntityReference>("giulia_mall");
+        //    if (preImage != null && preImage.Contains("giulia_mall"))
+        //        return preImage.GetAttributeValue<EntityReference>("giulia_mall");
 
-            throw new InvalidPluginExecutionException("Select a mall record!");
-        }
+        //    throw new InvalidPluginExecutionException("Select a mall record!");
+        //}
 
-        private string getMallName(EntityReference mallRef)
-        {
-            Entity mall = service.Retrieve("giulia_malls", mallRef.Id, new ColumnSet("giulia_name"));
-            return mall.GetAttributeValue<string>("giulia_name");
-        }
+        //private string getMallName(EntityReference mallRef)
+        //{
+        //    Entity mall = service.Retrieve("giulia_malls", mallRef.Id, new ColumnSet("giulia_name"));
+        //    return mall.GetAttributeValue<string>("giulia_name");
+        //}
 
-        private int getMallFloors(EntityReference mallRef)
-        {
-            Entity mall = service.Retrieve("giulia_malls", mallRef.Id, new ColumnSet("giulia_floors"));
-            return mall.GetAttributeValue<int>("giulia_floors");
-        }
+        //private int getMallFloors(EntityReference mallRef)
+        //{
+        //    Entity mall = service.Retrieve("giulia_malls", mallRef.Id, new ColumnSet("giulia_floors"));
+        //    return mall.GetAttributeValue<int>("giulia_floors");
+        //}
 
-        private int getFloorNumber(Entity floor, Entity preImage)
-        {
-            if (floor.Attributes.Contains("giulia_floornumber"))
-                return floor.GetAttributeValue<int>("giulia_floornumber");
-            if (preImage != null && preImage.Contains("giulia_floornumber"))
-                return preImage.GetAttributeValue<int>("giulia_floornumber");
-            throw new InvalidPluginExecutionException("Insert the floor number!");
-        }
+        //private int getFloorNumber(Entity floor, Entity preImage)
+        //{
+        //    if (floor.Attributes.Contains("giulia_floornumber"))
+        //        return floor.GetAttributeValue<int>("giulia_floornumber");
+        //    if (preImage != null && preImage.Contains("giulia_floornumber"))
+        //        return preImage.GetAttributeValue<int>("giulia_floornumber");
+        //    throw new InvalidPluginExecutionException("Insert the floor number!");
+        //}
 
-        private List<int> getAllFloorsRelatedToMall(IOrganizationService service, Guid mallGuid)
-        {
-            List<int> allMallFloors = new List<int>();
-            QueryExpression floorQuery = new QueryExpression("giulia_floor")
-            {
-                ColumnSet = new ColumnSet("giulia_floornumber"),
-                Criteria = new FilterExpression
-                {
-                    Conditions =
-                    {
-                        new ConditionExpression("giulia_mall", ConditionOperator.Equal, mallGuid)
-                    }
-                }
-            };
+        //private List<int> getAllFloorsRelatedToMall(IOrganizationService service, Guid mallGuid, Guid? currentFloorId)
+        //{
+        //    List<int> allMallFloors = new List<int>();
+        //    QueryExpression floorQuery = new QueryExpression("giulia_floor")
+        //    {
+        //        ColumnSet = new ColumnSet("giulia_floornumber"),
+        //        Criteria = new FilterExpression
+        //        {
+        //            Conditions =
+        //            {
+        //                new ConditionExpression("giulia_mall", ConditionOperator.Equal, mallGuid)
+        //            }
+        //        }
+        //    };
 
-            EntityCollection allFloorsEntities = service.RetrieveMultiple(floorQuery);
+        //    EntityCollection allFloorsEntities = service.RetrieveMultiple(floorQuery);
 
-            //Insert it in a list
-            foreach(var floors in allFloorsEntities.Entities)
-            {
-                allMallFloors.Add(floors.GetAttributeValue<int>("giulia_floornumber"));
-            }
+        //    //Insert it in a list
+        //    foreach(var floors in allFloorsEntities.Entities)
+        //    {
+        //        var floorId = floors.Id;
+        //        if (currentFloorId.HasValue && floorId == currentFloorId.Value)
+        //            continue; // Skip the current floor on update
 
-            return allMallFloors;
-        }
+        //        allMallFloors.Add(floors.GetAttributeValue<int>("giulia_floornumber"));
+        //    }
+
+        //    return allMallFloors;
+        //}
 
         private bool isFloorNumberValid(Entity floor, Entity preImage, int mallFloors)
         {
@@ -113,7 +117,7 @@ namespace MallSpace_Plugins.Floor.Business_Logic
             return false;
         }
 
-        private bool isMallNumberUnique(Entity floor, Entity preImage, List<int> allMallFloors)
+        private bool isFloorNumberUnique(Entity floor, Entity preImage, List<int> allMallFloors)
         {
             int floorNumber = 0;
             if (floor.Attributes.Contains("giulia_floornumber"))
@@ -122,11 +126,11 @@ namespace MallSpace_Plugins.Floor.Business_Logic
                 floorNumber = preImage.GetAttributeValue<int>("giulia_floornumber");
 
             foreach (var floors in allMallFloors)
-                {
-                    if (floorNumber == floors)
-                        return false;
-                }
+            {
+                if (floorNumber == floors)
+                   return false;
+            }
             return true;
-        }
+        }*/
     }
 }

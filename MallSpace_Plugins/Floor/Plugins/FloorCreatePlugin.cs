@@ -1,5 +1,6 @@
 ﻿using MallSpace_Plugins.Floor.Business_Logic;
 using MallSpace_Plugins.Floor.Handlers;
+using MallSpace_Plugins.Floor.Services;
 using Microsoft.Xrm.Sdk;
 using System;
 
@@ -21,15 +22,21 @@ namespace MallSpace_Plugins.Floor.Plugins
                 var preImage = context.PreEntityImages.Contains("PreImage") ? context.PreEntityImages["PreImage"] : null;
 
                 //Dependencies
-                FloorNameGenerator floorNameGenerator = new FloorNameGenerator(service);
+                FloorNameGenerate floorNameGenerate = new FloorNameGenerate();
+                FloorValidator floorValidator = new FloorValidator();
+                OccupiedSpaceCalculator occupiedSpaceCalculator = new OccupiedSpaceCalculator();
+                FloorDataService floorDataService = new FloorDataService(service);
 
                 try
                 {
-                    var handler = new FloorCreateHandler(service);
-                    handler.Handle(floor, preImage, floorNameGenerator);
-                    if(context.MessageName == "Create")
+                    var handler = new FloorCreateHandler(service, floorNameGenerate, floorValidator, occupiedSpaceCalculator, floorDataService);
+                    if (context.MessageName == "Create")
                     {
-                        floor["giulia_occupiedspace"] = floorNameGenerator.initializeOccupiedSpace();
+                        handler.HandleCreate(floor);
+                    }
+                    else if (context.MessageName == "Update") 
+                    { 
+                        handler.HandleUpdate(floor, preImage);
                     }
                     
                 } 

@@ -106,10 +106,13 @@
   <ItemGroup>
     <Compile Include="Contract\Handlers\ContractCreateUpdateHandler.cs" />
     <Compile Include="Contract\Plugins\ContractCreatePlugin.cs" />
+    <Compile Include="Floor\Business Logic\FloorNameGenerate.cs" />
     <Compile Include="Floor\Business Logic\FloorNameGenerator.cs" />
+    <Compile Include="Floor\Business Logic\FloorValidator.cs" />
     <Compile Include="Floor\Business Logic\OccupiedSpaceCalculator.cs" />
     <Compile Include="Floor\Handlers\FloorCreateHandler.cs" />
     <Compile Include="Floor\Plugins\FloorCreatePlugin.cs" />
+    <Compile Include="Floor\Services\FloorDataService.cs" />
     <Compile Include="Opportunity\Business Logic\ApprovalService.cs" />
     <Compile Include="Opportunity\Business Logic\OpportunityDefaultValues.cs" />
     <Compile Include="Opportunity\Business Logic\OpportunityRentCostCalculator.cs" />
