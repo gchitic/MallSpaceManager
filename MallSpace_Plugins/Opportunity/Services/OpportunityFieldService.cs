@@ -9,16 +9,22 @@ namespace MallSpace_Plugins.Opportunity.Services
 {
     public class OpportunityFieldService
     {
-        public Money getPricePerM2(Entity opportunity)
+        public Money getPricePerM2(Entity opportunity, Entity preImage)
         {
-            return opportunity.Contains("giulia_priceperm2") ? 
-                opportunity.GetAttributeValue<Money>("giulia_priceperm2") : null;
+            return opportunity.Contains("giulia_priceperm2")
+                ? opportunity.GetAttributeValue<Money>("giulia_priceperm2")
+                : preImage.Contains("giulia_priceperm2")
+                    ? preImage.GetAttributeValue<Money>("giulia_priceperm2")
+                    : null;
         }
 
-        public decimal? getOfferedSpace(Entity opportunity) 
+        public decimal? getOfferedSpace(Entity opportunity, Entity preImage) 
         { 
-            return opportunity.Contains("giulia_offeredspace") ? 
-                opportunity.GetAttributeValue<decimal?>("giulia_offeredspace") : null;
+            return opportunity.Contains("giulia_offeredspace") 
+                ? opportunity.GetAttributeValue<decimal?>("giulia_offeredspace")
+                : preImage.Contains("giulia_offeredspace")
+                    ? preImage.GetAttributeValue<decimal?>("giulia_offeredspace")
+                    : null;
         }
     }
 }
