@@ -1,5 +1,6 @@
 ﻿using MallSpace_Plugins.Opportunity.Business_Logic;
 using MallSpace_Plugins.Opportunity.Handlers.Commands;
+using MallSpace_Plugins.Opportunity.Services;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Workflow;
 using System;
@@ -21,13 +22,16 @@ namespace MallSpace_Plugins.Opportunity.Plugins.Commands
             IOrganizationServiceFactory serviceFactory = context.GetExtension<IOrganizationServiceFactory>();
             IOrganizationService service = serviceFactory.CreateOrganizationService(wfContext.UserId);
 
+            //Services
+            UserAccesService userAccesService = new UserAccesService(service);
+            OpportunityFieldService opportunityFieldService = new OpportunityFieldService(service);
+            ApprovalService approvalService = new ApprovalService(service);
+
             try
             {
                 Guid opportunityGuid = wfContext.PrimaryEntityId;
 
-                //throw new InvalidPluginExecutionException("Succes!" + opportunityGuid.ToString());
-
-                ApproveHandler handler = new ApproveHandler();
+                ApproveHandler handler = new ApproveHandler(userAccesService, opportunityFieldService, approvalService);
                 handler.Handle(wfContext, service, opportunityGuid);
             }
             catch (InvalidPluginExecutionException ex)

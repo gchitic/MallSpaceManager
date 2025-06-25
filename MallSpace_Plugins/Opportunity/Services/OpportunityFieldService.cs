@@ -48,5 +48,12 @@ namespace MallSpace_Plugins.Opportunity.Services
             opportunity["giulia_approvalsubmited"] = true;
             service.Update(opportunity);
         }
+
+        public void setOpportunityAsApproved(Guid opportunityGuid)
+        {
+            var opportunity = new Entity("giulia_opportunity", opportunityGuid);
+            opportunity["giulia_offerapproved"] = true;
+            service.Update(opportunity);
+        }
     }
 }

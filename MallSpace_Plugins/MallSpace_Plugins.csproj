@@ -129,6 +129,7 @@
     <Compile Include="Opportunity\Services\BpfService.cs" />
     <Compile Include="Opportunity\Services\OpportunityFieldService.cs" />
     <Compile Include="Opportunity\Services\RentCostService.cs" />
+    <Compile Include="Opportunity\Services\UserAccesService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
