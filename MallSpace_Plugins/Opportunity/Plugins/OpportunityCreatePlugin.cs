@@ -1,5 +1,6 @@
 ﻿using MallSpace_Plugins.Opportunity.Business_Logic;
 using MallSpace_Plugins.Opportunity.Handlers;
+using MallSpace_Plugins.Opportunity.Services;
 using Microsoft.Xrm.Sdk;
 using System;
 
@@ -23,12 +24,13 @@ namespace MallSpace_Plugins.Opportunity.Plugins
                 var calculator = new OpportunityRentCostCalculator();
                 var defaultValues = new OpportunityDefaultValues();
                 var readOnlyFieldRules = new ReadOnlyFieldRules();
+                var fieldService = new OpportunityFieldService();
 
                 try
                 {
                     if(context.MessageName == "Create")
                     {
-                        var handler = new OpportunityCreateHandler(calculator, defaultValues, readOnlyFieldRules, context);
+                        var handler = new OpportunityCreateHandler(calculator, defaultValues, readOnlyFieldRules, context, fieldService);
                         handler.Handle(opportunity);
                     }
                     if(context.MessageName == "Update")

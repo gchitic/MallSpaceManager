@@ -1,6 +1,7 @@
 ﻿using MallSpace_Plugins.Floor.Business_Logic;
 using MallSpace_Plugins.Floor.Handlers;
 using MallSpace_Plugins.Opportunity.Business_Logic;
+using MallSpace_Plugins.Opportunity.Services;
 using Microsoft.Xrm.Sdk;
 using System;
 
@@ -13,14 +14,17 @@ namespace MallSpace_Plugins.Opportunity.Handlers
         private readonly OpportunityDefaultValues defaultValues;
         private readonly ReadOnlyFieldRules readOnlyFieldRules;
         private readonly OccupiedSpaceCalculator occupiedSpaceCalculator;
+        private readonly OpportunityFieldService fieldService;
 
         public OpportunityCreateHandler(OpportunityRentCostCalculator calculator, OpportunityDefaultValues defaultValues,
-            ReadOnlyFieldRules readOnlyFieldRules, IPluginExecutionContext context)
+            ReadOnlyFieldRules readOnlyFieldRules, IPluginExecutionContext context, OpportunityFieldService fieldService)
         {
             this.calculator = calculator;
             this.defaultValues = defaultValues;
             this.readOnlyFieldRules = readOnlyFieldRules;
+
             this.context = context;
+            this.fieldService = fieldService;
         }
 
         public void Handle(Entity opportunity)
@@ -33,15 +37,15 @@ namespace MallSpace_Plugins.Opportunity.Handlers
 
         public void rentCostCalculation(Entity opportunity)
         {
-            //Rent cost calculation
-            var pricePerM2 = opportunity.Contains("giulia_priceperm2") ?
-                opportunity.GetAttributeValue<Money>("giulia_priceperm2") : null;
-            var offeredSpace = opportunity.Contains("giulia_offeredspace") ?
-                opportunity.GetAttributeValue<decimal?>("giulia_offeredspace") : null;
+            //Extract needed fields values : priceperm2,offeredspace
+            var pricePerM2 = fieldService.getPricePerM2(opportunity);
+            var offeredSpace = fieldService.getOfferedSpace(opportunity);
 
+            //Check if readonly fields are not filled
             EnforceReadOnlyFields(opportunity);
-            var rentCost = calculator.Calculator(pricePerM2, offeredSpace);
 
+            //Calculate & set the value
+            var rentCost = calculator.Calculator(pricePerM2, offeredSpace);
             if (rentCost != null)
             {
                 opportunity["giulia_rentcost"] = rentCost;
