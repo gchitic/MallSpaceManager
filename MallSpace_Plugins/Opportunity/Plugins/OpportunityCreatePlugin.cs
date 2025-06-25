@@ -26,7 +26,7 @@ namespace MallSpace_Plugins.Opportunity.Plugins
                 var readOnlyFieldRules = new ReadOnlyFieldRules();
 
                 //Services
-                var fieldService = new OpportunityFieldService();
+                var fieldService = new OpportunityFieldService(service);
                 var rentCostService = new RentCostService(calculator);
 
                 try
