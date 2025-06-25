@@ -1,5 +1,5 @@
-﻿using MallSpace_Plugins.Opportunity.Business_Logic;
-using MallSpace_Plugins.Opportunity.Handlers.Commands;
+﻿using MallSpace_Plugins.Opportunity.Handlers.Commands;
+using MallSpace_Plugins.Opportunity.Services;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Sdk.Workflow;
@@ -21,6 +21,8 @@ namespace MallSpace_Plugins.Opportunity.Plugins.Commands
             IOrganizationService service = serviceFactory.CreateOrganizationService(wfContext.UserId);
 
             //Dependencies
+            OpportunityFieldService opportunityFieldService = new OpportunityFieldService(service);
+            //Services
             ApprovalService approvalService = new ApprovalService(service);
 
             try
@@ -32,8 +34,8 @@ namespace MallSpace_Plugins.Opportunity.Plugins.Commands
                     throw new InvalidPluginExecutionException("Invalid or missing OpportunityId.");
                 }
 
-                SubmitForApprovalHandler handler = new SubmitForApprovalHandler();
-                handler.Handle(approvalService, opportunityGuid);
+                SubmitForApprovalHandler handler = new SubmitForApprovalHandler(approvalService, opportunityFieldService);
+                handler.Handle(opportunityGuid);
             }
             catch (InvalidPluginExecutionException ex)
             {

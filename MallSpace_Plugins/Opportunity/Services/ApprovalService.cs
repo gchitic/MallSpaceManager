@@ -2,8 +2,11 @@
 using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MallSpace_Plugins.Opportunity.Business_Logic
+namespace MallSpace_Plugins.Opportunity.Services
 {
     public class ApprovalService
     {
@@ -13,6 +16,7 @@ namespace MallSpace_Plugins.Opportunity.Business_Logic
         {
             this.service = service;
         }
+
         public List<string> getApprovalTeams()
         {
             var approvalTeams = new List<string>();
@@ -20,7 +24,7 @@ namespace MallSpace_Plugins.Opportunity.Business_Logic
             {
                 ColumnSet = new ColumnSet("giulia_key")
             };
-            EntityCollection teamCollection =  service.RetrieveMultiple(query);
+            EntityCollection teamCollection = service.RetrieveMultiple(query);
 
             foreach (Entity config in teamCollection.Entities)
             {
@@ -44,11 +48,11 @@ namespace MallSpace_Plugins.Opportunity.Business_Logic
             }
         }
 
-        public void markApprovalSubmitedAsYes(Guid opportunityGuid)
-        {
-            Entity opportunity = new Entity("giulia_opportunity", opportunityGuid);
-            opportunity["giulia_approvalsubmited"] = true;
-            service.Update(opportunity);
-        }
+        //public void markApprovalSubmitedAsYes(Guid opportunityGuid)
+        //{
+        //    Entity opportunity = new Entity("giulia_opportunity", opportunityGuid);
+        //    opportunity["giulia_approvalsubmited"] = true;
+        //    service.Update(opportunity);
+        //}
     }
 }

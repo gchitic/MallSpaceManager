@@ -112,7 +112,6 @@
     <Compile Include="Floor\Handlers\FloorCreateHandler.cs" />
     <Compile Include="Floor\Plugins\FloorCreatePlugin.cs" />
     <Compile Include="Floor\Services\FloorDataService.cs" />
-    <Compile Include="Opportunity\Business Logic\ApprovalService.cs" />
     <Compile Include="Opportunity\Business Logic\BPF\StageToStatusResonMapper.cs" />
     <Compile Include="Opportunity\Business Logic\OpportunityDefaultValues.cs" />
     <Compile Include="Opportunity\Business Logic\OpportunityRentCostCalculator.cs" />
@@ -126,6 +125,7 @@
     <Compile Include="Opportunity\Plugins\Commands\ApproveActionPlugin.cs" />
     <Compile Include="Opportunity\Plugins\Commands\SubmitForApprovalActionPlugin.cs" />
     <Compile Include="Opportunity\Plugins\OpportunityCreatePlugin.cs" />
+    <Compile Include="Opportunity\Services\ApprovalService.cs" />
     <Compile Include="Opportunity\Services\BpfService.cs" />
     <Compile Include="Opportunity\Services\OpportunityFieldService.cs" />
     <Compile Include="Opportunity\Services\RentCostService.cs" />

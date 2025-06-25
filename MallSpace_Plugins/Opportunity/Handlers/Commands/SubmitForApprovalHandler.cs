@@ -1,4 +1,5 @@
 ﻿using MallSpace_Plugins.Opportunity.Business_Logic;
+using MallSpace_Plugins.Opportunity.Services;
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,15 @@ namespace MallSpace_Plugins.Opportunity.Handlers.Commands
 {
     public class SubmitForApprovalHandler
     {
-        public void Handle(ApprovalService approvalService, Guid opportunityGuid)
+        private readonly ApprovalService approvalService;
+        private readonly OpportunityFieldService opportunityFieldService;
+
+        public SubmitForApprovalHandler(ApprovalService approvalService, OpportunityFieldService opportunityFieldService)
+        {
+            this.approvalService = approvalService;
+            this.opportunityFieldService = opportunityFieldService;
+        }
+        public void Handle(Guid opportunityGuid)
         {
             List<string> approvalTeams = approvalService.getApprovalTeams();
 
@@ -20,7 +29,7 @@ namespace MallSpace_Plugins.Opportunity.Handlers.Commands
             }
 
             approvalService.createApprovalRecords(opportunityGuid, approvalTeams);
-            approvalService.markApprovalSubmitedAsYes(opportunityGuid);
+            opportunityFieldService.setApprovalSubmitedAsYes(opportunityGuid);
         }
     }
 }
