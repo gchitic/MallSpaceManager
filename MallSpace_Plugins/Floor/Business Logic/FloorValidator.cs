@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xrm.Sdk;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,14 @@ namespace MallSpace_Plugins.Floor.Business_Logic
         public bool isUnique(int floorNumber, List<int> existingFloorNumbers)
         {
             return !existingFloorNumbers.Contains(floorNumber);
+        }
+
+        public void ensureSpaceIsAvailable(decimal? totalSpace, decimal? occupiedSpace, 
+            decimal? offeredSpace)
+        {
+            if((totalSpace - occupiedSpace) < offeredSpace) {
+                throw new InvalidPluginExecutionException("No more space on this floor");
+            }
         }
     }
 }

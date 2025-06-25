@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,16 @@ namespace MallSpace_Plugins.Opportunity.Services
                 : preImage.Contains("giulia_offeredspace")
                     ? preImage.GetAttributeValue<decimal?>("giulia_offeredspace")
                     : null;
+        }
+
+        public Guid getFloorGuid(Entity opportunity)
+        {
+            return opportunity.GetAttributeValue<EntityReference>("giulia_floor").Id;
+        }
+
+        public Entity getOpportunityWithFields(Guid opportunityGuid)
+        {
+            return service.Retrieve("giulia_opportunity", opportunityGuid, new ColumnSet("giulia_offeredspace", "giulia_floor"));
         }
 
 

@@ -1,51 +1,55 @@
-﻿using MallSpace_Plugins.Floor.Business_Logic;
+﻿using MallSpace_Plugins.Contract.Services;
+using MallSpace_Plugins.Floor.Business_Logic;
+using MallSpace_Plugins.Floor.Services;
+using MallSpace_Plugins.Opportunity.Services;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MallSpace_Plugins.Contract.Handlers
 {
     public class ContractCreateUpdateHandler
     {
         private readonly OccupiedSpaceCalculator occupiedSpaceCalculator;
+        private readonly FloorValidator floorValidator;
 
-        public ContractCreateUpdateHandler(OccupiedSpaceCalculator occupiedSpaceCalculator)
+        //Services
+        private readonly FloorDataService floorDataService;
+        private readonly OpportunityFieldService opportunityFieldService;
+        private readonly ContractDataService contractDataService;
+
+        public ContractCreateUpdateHandler(OccupiedSpaceCalculator occupiedSpaceCalculator, FloorDataService floorDataService, OpportunityFieldService opportunityFieldService, 
+            FloorValidator floorValidator, ContractDataService contractDataService)
         {
             this.occupiedSpaceCalculator = occupiedSpaceCalculator;
+
+            //Services
+            this.floorDataService = floorDataService;
+            this.opportunityFieldService = opportunityFieldService;
+            this.floorValidator = floorValidator;
+            this.contractDataService = contractDataService;
         }
 
         public void Handle(IOrganizationService service, Entity contract)
         {
-            //1.get opportunity entity by id
-            Guid opportunityGuid = contract.GetAttributeValue<EntityReference>("giulia_opportunity").Id;
+            Guid opportunityGuid = contractDataService.getOpportunityId(contract);
 
-            //2.extract from opportunity status reason, offeredspace, floorId
-            Entity opportunity = service.Retrieve("giulia_opportunity", opportunityGuid, new ColumnSet("giulia_offeredspace", "giulia_floor"));
-            
+            //2.extract from opportunity offeredspace, floorId
+            Entity opportunity = opportunityFieldService.getOpportunityWithFields(opportunityGuid);
+
             //extract floor id from opportunity
-            Guid floorGuid = opportunity.GetAttributeValue<EntityReference>("giulia_floor").Id;
-            Entity floor = service.Retrieve("giulia_floor", floorGuid, new ColumnSet("giulia_totalspace", "giulia_occupiedspace"));
+            Guid floorGuid = opportunityFieldService.getFloorGuid(opportunity);
+            Entity floor = floorDataService.getFloorWithFields(floorGuid);
 
-            //3.set occupiedSpace from floor
-                decimal? totalSpace = floor.GetAttributeValue<decimal?>("giulia_totalspace");
-                decimal? occupiedSpace = floor.GetAttributeValue<decimal?>("giulia_occupiedspace");
-                decimal? offeredSpace = opportunity.GetAttributeValue<decimal?>("giulia_offeredspace");
+            //set values
+            decimal? totalSpace = floorDataService.getTotalSpace(floor);
+            decimal? occupiedSpace = floorDataService.getOccupiedSpace(floor);
+            decimal? offeredSpace = opportunityFieldService.getOfferedSpace(opportunity, null);
 
-                if (totalSpace - occupiedSpace > offeredSpace) 
-                {
-                    floor["giulia_occupiedspace"] = occupiedSpaceCalculator.calculateOccupiedSpace(offeredSpace, occupiedSpace);
-                    service.Update(floor);
-    
-                }
-                else
-                {
-                    throw new InvalidPluginExecutionException("No more space on this floor");
-                }
+            //Calculate offeredSpace
+            floorValidator.ensureSpaceIsAvailable(totalSpace, occupiedSpace, offeredSpace);
+            var space = occupiedSpaceCalculator.calculateOccupiedSpace(offeredSpace, occupiedSpace);
+            floorDataService.setOccupiedSpace(floor, space);
         }
     }
 }

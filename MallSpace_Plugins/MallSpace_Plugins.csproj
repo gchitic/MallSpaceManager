@@ -106,6 +106,7 @@
   <ItemGroup>
     <Compile Include="Contract\Handlers\ContractCreateUpdateHandler.cs" />
     <Compile Include="Contract\Plugins\ContractCreatePlugin.cs" />
+    <Compile Include="Contract\Services\ContractDataService.cs" />
     <Compile Include="Floor\Business Logic\FloorNameGenerate.cs" />
     <Compile Include="Floor\Business Logic\FloorValidator.cs" />
     <Compile Include="Floor\Business Logic\OccupiedSpaceCalculator.cs" />

@@ -17,6 +17,16 @@ namespace MallSpace_Plugins.Floor.Services
             this.service = service;
         }
 
+        //GET
+        public decimal? getTotalSpace(Entity floor)
+        {
+            return floor.GetAttributeValue<decimal?>("giulia_totalspace");
+        }
+        public decimal? getOccupiedSpace(Entity floor)
+        {
+            return floor.GetAttributeValue<decimal?>("giulia_occupiedspace");
+        }
+
         public EntityReference getMallReference(Entity floor, Entity preImage)
         {
             if (floor.Attributes.Contains("giulia_mall"))
@@ -76,6 +86,18 @@ namespace MallSpace_Plugins.Floor.Services
             }
 
             return allMallFloors;
+        }
+
+        public Entity getFloorWithFields(Guid floorGuid)
+        {
+            return service.Retrieve("giulia_floor", floorGuid, new ColumnSet("giulia_totalspace", "giulia_occupiedspace"));
+        }
+
+        //SET
+        public void setOccupiedSpace(Entity floor, decimal? space)
+        {
+            floor["giulia_occupiedspace"] = space;
+            service.Update(floor);
         }
     }
 }

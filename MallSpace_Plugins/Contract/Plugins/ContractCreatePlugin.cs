@@ -1,12 +1,10 @@
 ﻿using MallSpace_Plugins.Contract.Handlers;
+using MallSpace_Plugins.Contract.Services;
 using MallSpace_Plugins.Floor.Business_Logic;
-using Microsoft.Win32.SafeHandles;
+using MallSpace_Plugins.Floor.Services;
+using MallSpace_Plugins.Opportunity.Services;
 using Microsoft.Xrm.Sdk;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MallSpace_Plugins.Contract.Plugins
 {
@@ -26,11 +24,21 @@ namespace MallSpace_Plugins.Contract.Plugins
 
                 //Dependencies
                 OccupiedSpaceCalculator occupiedSpaceCalculator = new OccupiedSpaceCalculator();
+                FloorValidator floorValidator = new FloorValidator();
+
+                //Services
+                FloorDataService floorDataService = new FloorDataService(service);
+                OpportunityFieldService opportunityFieldService = new OpportunityFieldService(service);
+                ContractDataService contractDataService = new ContractDataService(service);
 
                 try
                 {
-                    ContractCreateUpdateHandler handler = new ContractCreateUpdateHandler(occupiedSpaceCalculator);
-                    handler.Handle(service, contract);
+                    if(context.MessageName == "Create")
+                    {
+                        ContractCreateUpdateHandler handler = new ContractCreateUpdateHandler(occupiedSpaceCalculator, floorDataService, opportunityFieldService,
+                            floorValidator, contractDataService);
+                        handler.Handle(service, contract);
+                    } 
                 }
                 catch(InvalidPluginExecutionException ex)
                 {
