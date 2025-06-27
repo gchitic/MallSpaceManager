@@ -21,18 +21,6 @@ namespace MallSpace_Plugins.Opportunity.Business_Logic
             {
                 throw new InvalidPluginExecutionException("The Rent Cost field is read-only and cannot be set manually.");
             }
-
-            //if not in Target, check in preImage and compare woth the current value
-            //if (preImage != null && preImage.Contains("giulia_rentcost"))
-            //{
-            //    var original = preImage.GetAttributeValue<Money>("giulia_rentcost");
-            //    var current = opportunity.GetAttributeValue<Money>("giulia_rentcost");
-
-            //    if (current != null && !current.Value.Equals(original?.Value))
-            //    {
-            //        throw new InvalidPluginExecutionException("The Rent Cost field is read-only and cannot be set manually.");
-            //    }
-            //}
         }
     }
 }

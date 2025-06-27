@@ -17,7 +17,6 @@ namespace MallSpace_Plugins.Opportunity.Handlers
         private readonly OpportunityRentCostCalculator calculator;
         private readonly OpportunityDefaultValues defaultValues;
         private readonly ReadOnlyFieldRules readOnlyFieldRules;
-        //private readonly OccupiedSpaceCalculator occupiedSpaceCalculator;
         
 
         public OpportunityCreateHandler(OpportunityRentCostCalculator calculator, OpportunityDefaultValues defaultValues,

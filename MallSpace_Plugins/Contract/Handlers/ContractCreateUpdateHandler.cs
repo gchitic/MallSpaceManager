@@ -3,7 +3,6 @@ using MallSpace_Plugins.Floor.Business_Logic;
 using MallSpace_Plugins.Floor.Services;
 using MallSpace_Plugins.Opportunity.Services;
 using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
 using System;
 
 namespace MallSpace_Plugins.Contract.Handlers
@@ -34,7 +33,7 @@ namespace MallSpace_Plugins.Contract.Handlers
         {
             Guid opportunityGuid = contractDataService.getOpportunityId(contract);
 
-            //2.extract from opportunity offeredspace, floorId
+            //extract from opportunity offeredspace, floorId
             Entity opportunity = opportunityFieldService.getOpportunityWithFields(opportunityGuid);
 
             //extract floor id from opportunity

@@ -30,7 +30,7 @@ namespace MallSpace_Plugins.Opportunity.Handlers.Commands
 
             //Check the permission of approval
             bool allApproved = approvalService.areAllApproved(approvals);
-            bool canUserStillApprove = approvalService.canUserStillApprove(approvals, userRoles);
+            //bool canUserStillApprove = approvalService.canUserStillApprove(approvals, userRoles);
 
             if (allApproved)
                 opportunityFieldService.setOpportunityAsApproved(opportunityGuid);
